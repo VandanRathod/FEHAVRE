@@ -13,6 +13,7 @@ import { bakeryInfo } from "@/lib/data";
 import { useDispatch, useSelector } from "react-redux";
 import { signup } from "@/lib/authSlice";
 import type { RootState } from "@/lib/store";
+import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 
 export default function Signup() {
   const navigate = useNavigate();
@@ -20,7 +21,6 @@ export default function Signup() {
   const { isAuthenticated, loading, error, user } = useSelector((state: RootState) => state.auth);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  const [agreedToTerms, setAgreedToTerms] = useState(false);
 
   const [formData, setFormData] = useState({
     firstName: "",
@@ -63,9 +63,6 @@ export default function Signup() {
     }
     if (formData.password !== formData.confirmPassword) {
       return "Passwords do not match";
-    }
-    if (!agreedToTerms) {
-      return "Please agree to the terms and conditions";
     }
     return null;
   };
@@ -119,10 +116,13 @@ export default function Signup() {
           </div>
 
           {/* Enhanced Mobile-First Signup Form */}
-          <div className="bg-white rounded-xl xs:rounded-2xl shadow-xl p-6 xs:p-8">
-            <div className="text-center mb-6 xs:mb-8">
-              <h2 className="text-xl xs:text-2xl font-bold text-gray-900">Create Account</h2>
-            </div>
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                Create Account
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
               <form onSubmit={handleSubmit} className="space-y-4 xs:space-y-5">
                 {error && (
                   <Alert variant="destructive" className="rounded-lg">
@@ -314,56 +314,28 @@ export default function Signup() {
                     )}
                 </div>
 
-                <div className="flex items-start space-x-2">
-                  <Checkbox
-                    id="terms"
-                    checked={agreedToTerms}
-                    onCheckedChange={(checked) =>
-                      setAgreedToTerms(checked as boolean)
-                    }
-                    disabled={loading}
-                  />
-                  <div className="text-sm leading-relaxed">
-                    <label htmlFor="terms" className="cursor-pointer">
-                      I agree to the{" "}
-                      <Link
-                        to="/terms"
-                        className="text-primary hover:underline"
-                      >
-                        Terms of Service
-                      </Link>{" "}
-                      and{" "}
-                      <Link
-                        to="/privacy"
-                        className="text-primary hover:underline"
-                      >
-                        Privacy Policy
-                      </Link>
-                    </label>
-                  </div>
-                </div>
+                <Button
+                  type="submit"
+                  className="w-full bg-gray-900 hover:bg-gray-800 text-white py-4 xs:py-5 rounded-lg font-semibold text-base xs:text-lg min-h-touch"
+                  disabled={loading}
+                  size="lg"
+                >
+                  {loading ? "Creating Account..." : "Create Account"}
+                </Button>
+              </form>
+            </CardContent>
+          </Card>
 
-              <Button
-                type="submit"
-                className="w-full bg-gray-900 hover:bg-gray-800 text-white py-4 xs:py-5 rounded-lg font-semibold text-base xs:text-lg min-h-touch"
-                disabled={loading}
-                size="lg"
-              >
-                {loading ? "Creating Account..." : "Create Account"}
-              </Button>
-            </form>
-
-            <div className="mt-8 text-center text-sm">
-              <span className="text-gray-600">
-                Already have an account?{" "}
-              </span>
-              <Link
-                to="/login"
-                className="font-semibold text-amber-600 hover:text-amber-700 hover:underline"
-              >
-                Sign in here
-              </Link>
-            </div>
+          <div className="mt-8 text-center text-sm">
+            <span className="text-gray-600">
+              Already have an account?{" "}
+            </span>
+            <Link
+              to="/login"
+              className="font-semibold text-amber-600 hover:text-amber-700 hover:underline"
+            >
+              Sign in here
+            </Link>
           </div>
         </div>
       </main>

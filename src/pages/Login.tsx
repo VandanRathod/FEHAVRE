@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Header } from "@/components/layout/Header";
@@ -20,7 +21,7 @@ export default function Login() {
   const [showPassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState({
     email: "",
-    password: "",
+    password: ""
   });
 
   useEffect(() => {
@@ -66,10 +67,8 @@ export default function Login() {
           </div>
 
           {/* Enhanced Mobile-First Login Form */}
-          <div className="bg-white rounded-xl xs:rounded-2xl shadow-xl p-6 xs:p-8">
-            <div className="text-center mb-6 xs:mb-8">
-              <h2 className="text-xl xs:text-2xl font-bold text-gray-900">Sign In</h2>
-            </div>
+          <div className="p-0 xs:p-0 shadow-none rounded-none">
+            
 
             <form onSubmit={handleSubmit} className="space-y-5 xs:space-y-6">
               {error && (
@@ -79,56 +78,59 @@ export default function Login() {
                 </Alert>
               )}
 
-              <div className="space-y-2 xs:space-y-3">
-                <Label htmlFor="email" className="text-gray-900 font-semibold text-sm xs:text-base">Email</Label>
-                <Input
-                  id="email"
-                  name="email"
-                  type="email"
-                  placeholder="Enter your email"
-                  value={formData.email}
-                  onChange={handleInputChange}
-                  required
-                  disabled={loading}
-                  className="border-gray-200 rounded-lg py-3 xs:py-4 text-base focus:ring-2 focus:ring-amber-500 focus:border-transparent min-h-touch"
-                  style={{ fontSize: '16px' }}
-                />
-              </div>
-
-              <div className="space-y-2 xs:space-y-3">
-                <Label htmlFor="password" className="text-gray-900 font-semibold text-sm xs:text-base">Password</Label>
-                <div className="relative">
-                  <Input
-                    id="password"
-                    name="password"
-                    type={showPassword ? "text" : "password"}
-                    placeholder="Enter your password"
-                    value={formData.password}
-                    onChange={handleInputChange}
-                    required
-                    disabled={loading}
-                    className="border-gray-200 rounded-lg py-3 xs:py-4 pr-12 xs:pr-14 text-base focus:ring-2 focus:ring-amber-500 focus:border-transparent min-h-touch"
-                    style={{ fontSize: '16px' }}
-                  />
-                  <Button
-                    type="button"
-                    variant="ghost"
-                    size="sm"
-                    className="absolute right-2 xs:right-3 top-1/2 transform -translate-y-1/2 min-w-touch min-h-touch w-10 h-10 xs:w-12 xs:h-12 p-0 hover:bg-gray-100 rounded-lg"
-                    onClick={() => setShowPassword(!showPassword)}
-                    disabled={loading}
-                  >
-                    {showPassword ? (
-                      <EyeOff className="h-4 w-4 xs:h-5 xs:w-5 text-gray-500" />
-                    ) : (
-                      <Eye className="h-4 w-4 xs:h-5 xs:w-5 text-gray-500" />
-                    )}
-                    <span className="sr-only">
-                      {showPassword ? 'Hide password' : 'Show password'}
-                    </span>
-                  </Button>
-                </div>
-              </div>
+              <Card>
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2 justify-center">
+                    Sign In
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-6">
+                  <div>
+                    <Label htmlFor="email" className="text-gray-900 font-semibold">Email *</Label>
+                    <Input
+                      id="email"
+                      name="email"
+                      type="email"
+                      value={formData.email}
+                      onChange={handleInputChange}
+                      required
+                      disabled={loading}
+                    />
+                  </div>
+                  <div>
+                    <Label htmlFor="password" className="text-gray-900 font-semibold">Password *</Label>
+                    <div className="relative">
+                      <Input
+                        id="password"
+                        name="password"
+                        type={showPassword ? "text" : "password"}
+                        value={formData.password}
+                        onChange={handleInputChange}
+                        required
+                        disabled={loading}
+                        className="pr-12"
+                      />
+                      <Button
+                        type="button"
+                        variant="ghost"
+                        size="sm"
+                        className="absolute right-2 top-1/2 transform -translate-y-1/2 min-w-touch min-h-touch w-10 h-10 p-0 hover:bg-gray-100 rounded-lg"
+                        onClick={() => setShowPassword(!showPassword)}
+                        disabled={loading}
+                      >
+                        {showPassword ? (
+                          <EyeOff className="h-4 w-4 text-gray-500" />
+                        ) : (
+                          <Eye className="h-4 w-4 text-gray-500" />
+                        )}
+                        <span className="sr-only">
+                          {showPassword ? 'Hide password' : 'Show password'}
+                        </span>
+                      </Button>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
 
               <div className="flex items-center justify-between">
                 <div className="text-sm">
