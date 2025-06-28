@@ -253,7 +253,18 @@ export default function Checkout() {
                     <Label className="block mb-2">Please choose a pickup location, date and time:</Label>
                     <div className="space-y-3">
                       {storeOptions.map((store) => (
-                        <div key={store.value} className={`border rounded-lg p-4 flex items-start gap-3 ${formData.storeLocation === store.value ? 'border-primary bg-primary/5' : 'border-border/50 bg-white'}`}>
+                        <div
+                          key={store.value}
+                          className={`border rounded-lg p-4 flex items-start gap-3 ${formData.storeLocation === store.value ? 'border-primary bg-primary/5' : 'border-border/50 bg-white'}`}
+                          onClick={(e) => {
+                            // Prevent click from More information button from selecting
+                            if ((e.target as HTMLElement).closest('button')) return;
+                            setFormData((prev) => ({ ...prev, storeLocation: store.value }));
+                          }}
+                          style={{ cursor: 'pointer' }}
+                          tabIndex={0}
+                          role="button"
+                        >
                           <input
                             type="radio"
                             id={store.value}
@@ -262,6 +273,7 @@ export default function Checkout() {
                             checked={formData.storeLocation === store.value}
                             onChange={handleInputChange}
                             className="mt-1 h-5 w-5 accent-primary"
+                            onClick={(e) => e.stopPropagation()} // Prevent bubbling to parent div
                           />
                           <div className="flex-1">
                             <Label htmlFor={store.value} className="font-bold text-base text-bakery-dark">{store.name}</Label>
@@ -269,7 +281,10 @@ export default function Checkout() {
                             <button
                               type="button"
                               className="text-primary underline text-xs mt-1 flex items-center gap-1"
-                              onClick={() => setShowStoreInfo({open: true, store})}
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                setShowStoreInfo({open: true, store});
+                              }}
                             >
                               <Info className="h-4 w-4 inline-block" /> More information
                             </button>
@@ -280,7 +295,7 @@ export default function Checkout() {
                     {/* Store Info Modal */}
                     {showStoreInfo.open && showStoreInfo.store && (
                       <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
-                        <div className="bg-white rounded-xl shadow-lg max-w-md w-full p-6 relative">
+                        <div className="bg-white rounded-lg shadow-lg max-w-md w-full p-6 relative mx-4">
                           <button className="absolute top-2 right-2 text-gray-400 hover:text-primary text-2xl font-bold" onClick={() => setShowStoreInfo({open: false, store: null})}>&times;</button>
                           <h2 className="text-2xl font-bold mb-2 leading-tight">{showStoreInfo.store.name}</h2>
                           <div className="text-base text-gray-700 mb-4 whitespace-pre-line">{showStoreInfo.store.address}<br/>{showStoreInfo.store.city}</div>
