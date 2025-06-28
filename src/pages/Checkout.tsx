@@ -13,7 +13,8 @@ import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "@/lib/store";
 import { clearCart } from "@/lib/cartSlice";
 import { mockProducts } from "@/lib/data";
-import { ArrowLeft, CreditCard, Truck, Clock } from "lucide-react";
+import { ArrowLeft, CreditCard, Truck, Clock, Store, Info } from "lucide-react";
+import * as React from "react";
 
 export default function Checkout() {
   const navigate = useNavigate();
@@ -23,6 +24,8 @@ export default function Checkout() {
   const { isAuthenticated, user } = useSelector((state: RootState) => state.auth);
   const [isLoading, setIsLoading] = useState(false);
   const [paymentMethod, setPaymentMethod] = useState("card");
+  const [deliveryMethod, setDeliveryMethod] = useState("car");
+  const [showStoreInfo, setShowStoreInfo] = useState<{open: boolean, store: any | null}>({open: false, store: null});
 
   const [formData, setFormData] = useState({
     // Contact Info
@@ -37,6 +40,9 @@ export default function Checkout() {
     state: user?.address?.state || "",
     zipCode: user?.address?.zip || "",
 
+    // Store Pickup
+    storeLocation: "",
+
     // Payment Info
     cardNumber: "",
     expiryDate: "",
@@ -46,6 +52,42 @@ export default function Checkout() {
     // Special Instructions
     instructions: "",
   });
+
+  // Store data for pickup
+  const storeOptions = [
+    {
+      value: "KotaDamansara",
+      name: "Lachér Patisserie HQ @ Kota Damansara",
+      address: "17, Jalan Teknologi 3/3A, Surian Industrial Park, 47810 Kota Damansara, Selangor.",
+      city: "Kota Damansara, 47810",
+      info: "Open daily 10am-8pm. Parking available. Contact: 012-3456789."
+    },
+    {
+      value: "PlazaConlay",
+      name: "Lachér Patisserie @ Plaza Conlay",
+      address: "Unit M1G1, Menara 1, Plaza Conlay, Lot 301, Jalan Conlay, 50450 Kuala Lumpur",
+      city: "Kuala Lumpur, 50450",
+      info: "Open Mon-Sat 10am-7pm. Closed Sunday. Contact: 019-8765432."
+    },
+    {
+      value: "TheMET",
+      name: "Lachér Patisserie @ The MET",
+      address: "LG 01-02, Menara The MET, Jalan Dutamas 2, Mont Kiara, 50480 Kuala Lumpur",
+      city: "Mont Kiara, 50480",
+      info: "Open daily 9am-9pm. Basement parking. Contact: 017-1122334."
+    }
+  ];
+
+  // Add pickup hours for all stores (customize per store if needed)
+  const pickupHours = [
+    { day: 'Mon', time: '11:30 AM - 6:00 PM' },
+    { day: 'Tue', time: '11:30 AM - 6:00 PM' },
+    { day: 'Wed', time: '11:30 AM - 6:00 PM' },
+    { day: 'Thu', time: '11:30 AM - 6:00 PM' },
+    { day: 'Fri', time: '11:30 AM - 6:00 PM' },
+    { day: 'Sat', time: '11:30 AM - 6:00 PM' },
+    { day: 'Sun', time: '11:30 AM - 6:00 PM' },
+  ];
 
   // Calculate totals
   const cartItemsWithDetails = items
@@ -71,7 +113,7 @@ export default function Checkout() {
   };
 
   const handleInputChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>,
   ) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
@@ -183,83 +225,161 @@ export default function Checkout() {
                 </CardContent>
               </Card>
 
-              {/* Delivery Address */}
-              <Card>
-                <CardHeader>
-                  <CardTitle className="flex items-center gap-2">
-                    <Truck className="h-5 w-5" />
-                    Delivery Address
-                  </CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-4">
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div>
-                      <Label htmlFor="firstName">First Name *</Label>
-                      <Input
-                        id="firstName"
-                        name="firstName"
-                        value={formData.firstName}
-                        onChange={handleInputChange}
-                        required
-                      />
-                    </div>
-                    <div>
-                      <Label htmlFor="lastName">Last Name *</Label>
-                      <Input
-                        id="lastName"
-                        name="lastName"
-                        value={formData.lastName}
-                        onChange={handleInputChange}
-                        required
-                      />
-                    </div>
+              {/* Delivery Method Selection */}
+              <div>
+                <Label className="block text-base font-semibold mb-2">Choose Delivery Method</Label>
+                <div className="flex gap-4 mb-4">
+                  <div
+                    className={`flex-1 cursor-pointer rounded-xl border-2 flex flex-col items-center py-6 px-2 transition-all duration-200 ${deliveryMethod === 'car' ? 'bg-primary/10 border-primary shadow' : 'bg-white border-border/50 hover:border-primary/60'}`}
+                    onClick={() => setDeliveryMethod('car')}
+                    role="button"
+                    tabIndex={0}
+                  >
+                    <Truck className={`h-8 w-8 mb-2 ${deliveryMethod === 'car' ? 'text-primary' : 'text-gray-400'}`} strokeWidth={0.9}/>
+                    <span className={`font-semibold text-base ${deliveryMethod === 'car' ? 'text-primary' : 'text-gray-700'}`}>Deliver by Car</span>
                   </div>
+                  <div
+                    className={`flex-1 cursor-pointer rounded-xl border-2 flex flex-col items-center py-6 px-2 transition-all duration-200 ${deliveryMethod === 'pickup' ? 'bg-primary/10 border-primary shadow' : 'bg-white border-border/50 hover:border-primary/60'}`}
+                    onClick={() => setDeliveryMethod('pickup')}
+                    role="button"
+                    tabIndex={0}
+                  >
+                    <Store className={`h-8 w-8 mb-2 ${deliveryMethod === 'pickup' ? 'text-primary' : 'text-gray-400'}`} strokeWidth={0.9} />
+                    <span className={`font-semibold text-base ${deliveryMethod === 'pickup' ? 'text-primary' : 'text-gray-700'}`}>Store Pickup</span>
+                  </div>
+                </div>
+                {deliveryMethod === 'pickup' && (
+                  <div className="mt-2">
+                    <Label className="block mb-2">Please choose a pickup location, date and time:</Label>
+                    <div className="space-y-3">
+                      {storeOptions.map((store) => (
+                        <div key={store.value} className={`border rounded-lg p-4 flex items-start gap-3 ${formData.storeLocation === store.value ? 'border-primary bg-primary/5' : 'border-border/50 bg-white'}`}>
+                          <input
+                            type="radio"
+                            id={store.value}
+                            name="storeLocation"
+                            value={store.value}
+                            checked={formData.storeLocation === store.value}
+                            onChange={handleInputChange}
+                            className="mt-1 h-5 w-5 accent-primary"
+                          />
+                          <div className="flex-1">
+                            <Label htmlFor={store.value} className="font-bold text-base text-bakery-dark">{store.name}</Label>
+                            <div className="text-sm text-gray-700 leading-snug mt-1">{store.address}<br/>{store.city}</div>
+                            <button
+                              type="button"
+                              className="text-primary underline text-xs mt-1 flex items-center gap-1"
+                              onClick={() => setShowStoreInfo({open: true, store})}
+                            >
+                              <Info className="h-4 w-4 inline-block" /> More information
+                            </button>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                    {/* Store Info Modal */}
+                    {showStoreInfo.open && showStoreInfo.store && (
+                      <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
+                        <div className="bg-white rounded-xl shadow-lg max-w-md w-full p-6 relative">
+                          <button className="absolute top-2 right-2 text-gray-400 hover:text-primary text-2xl font-bold" onClick={() => setShowStoreInfo({open: false, store: null})}>&times;</button>
+                          <h2 className="text-2xl font-bold mb-2 leading-tight">{showStoreInfo.store.name}</h2>
+                          <div className="text-base text-gray-700 mb-4 whitespace-pre-line">{showStoreInfo.store.address}<br/>{showStoreInfo.store.city}</div>
+                          <div className="font-semibold text-lg mb-2">Pickup hours</div>
+                          <table className="w-full border text-sm mb-4">
+                            <tbody>
+                              {pickupHours.map((row) => (
+                                <tr key={row.day}>
+                                  <td className="border px-2 py-1 font-medium w-1/3">{row.day}</td>
+                                  <td className="border px-2 py-1">{row.time}</td>
+                                </tr>
+                              ))}
+                            </tbody>
+                          </table>
+                          <Button className="w-full mt-2" onClick={() => setShowStoreInfo({open: false, store: null})}>Close</Button>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                )}
+              </div>
 
-                  <div>
-                    <Label htmlFor="address">Address *</Label>
-                    <Input
-                      id="address"
-                      name="address"
-                      value={formData.address}
-                      onChange={handleInputChange}
-                      required
-                    />
-                  </div>
-
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                    <div>
-                      <Label htmlFor="city">City *</Label>
-                      <Input
-                        id="city"
-                        name="city"
-                        value={formData.city}
-                        onChange={handleInputChange}
-                        required
-                      />
+              {/* Delivery Address (conditional) */}
+              {deliveryMethod === 'car' && (
+                <Card>
+                  <CardHeader>
+                    <CardTitle className="flex items-center gap-2">
+                      <Truck className="h-5 w-5" />
+                      Delivery Address
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent className="space-y-4">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div>
+                        <Label htmlFor="firstName">First Name *</Label>
+                        <Input
+                          id="firstName"
+                          name="firstName"
+                          value={formData.firstName}
+                          onChange={handleInputChange}
+                          required={deliveryMethod === 'car'}
+                        />
+                      </div>
+                      <div>
+                        <Label htmlFor="lastName">Last Name *</Label>
+                        <Input
+                          id="lastName"
+                          name="lastName"
+                          value={formData.lastName}
+                          onChange={handleInputChange}
+                          required={deliveryMethod === 'car'}
+                        />
+                      </div>
                     </div>
                     <div>
-                      <Label htmlFor="state">State *</Label>
+                      <Label htmlFor="address">Address *</Label>
                       <Input
-                        id="state"
-                        name="state"
-                        value={formData.state}
+                        id="address"
+                        name="address"
+                        value={formData.address}
                         onChange={handleInputChange}
-                        required
+                        required={deliveryMethod === 'car'}
                       />
                     </div>
-                    <div>
-                      <Label htmlFor="zipCode">ZIP Code *</Label>
-                      <Input
-                        id="zipCode"
-                        name="zipCode"
-                        value={formData.zipCode}
-                        onChange={handleInputChange}
-                        required
-                      />
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                      <div>
+                        <Label htmlFor="city">City *</Label>
+                        <Input
+                          id="city"
+                          name="city"
+                          value={formData.city}
+                          onChange={handleInputChange}
+                          required={deliveryMethod === 'car'}
+                        />
+                      </div>
+                      <div>
+                        <Label htmlFor="state">State *</Label>
+                        <Input
+                          id="state"
+                          name="state"
+                          value={formData.state}
+                          onChange={handleInputChange}
+                          required={deliveryMethod === 'car'}
+                        />
+                      </div>
+                      <div>
+                        <Label htmlFor="zipCode">ZIP Code *</Label>
+                        <Input
+                          id="zipCode"
+                          name="zipCode"
+                          value={formData.zipCode}
+                          onChange={handleInputChange}
+                          required={deliveryMethod === 'car'}
+                        />
+                      </div>
                     </div>
-                  </div>
-                </CardContent>
-              </Card>
+                  </CardContent>
+                </Card>
+              )}
 
               {/* Payment Method */}
               <Card>
