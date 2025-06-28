@@ -230,9 +230,9 @@ export default function Cart() {
 
             <div className="flex flex-col xs:flex-row justify-between items-stretch xs:items-center pt-4 xs:pt-6 gap-3 xs:gap-4">
               <Button
-                variant="outline"
+                className="w-full min-h-touch py-3 text-base font-semibold tracking-wide rounded-lg mt-0 bg-primary hover:bg-bakery-gold text-primary-foreground transition-all duration-300 shadow hover:shadow-lg font-sans"
+                size="lg"
                 onClick={handleClearCart}
-                className="w-full xs:w-auto min-h-touch px-4 py-3 rounded-xl border-2 border-destructive text-destructive hover:bg-destructive hover:text-destructive-foreground transition-all duration-200"
               >
                 Clear Cart
               </Button>
@@ -248,21 +248,17 @@ export default function Cart() {
 
           {/* Enhanced Mobile-First Order Summary */}
           <div>
-            <Card className="sticky top-4 xs:top-6 sm:top-8 rounded-xl xs:rounded-2xl shadow-lg border border-border/50 bg-gradient-to-br from-card to-bakery-cream/20">
-              <CardHeader className="pb-4 xs:pb-6">
-                <CardTitle className="text-lg xs:text-xl">Order Summary</CardTitle>
+            <Card className="rounded-lg shadow border border-border/50 bg-white/90" style={{ boxShadow: '0 2px 12px 0 rgba(0,0,0,0.04)' }}>
+              <CardHeader className="pb-2">
+                <CardTitle className="text-xl font-semibold text-[#3a2c1a]">Order Summary</CardTitle>
               </CardHeader>
-              <CardContent className="space-y-4 xs:space-y-5">
-                <div className="space-y-3 xs:space-y-4">
-                  <div className="flex justify-between text-sm xs:text-base">
+              <CardContent className="pt-2 pb-4 px-4">
+                <div className="space-y-3">
+                  <div className="flex justify-between text-base">
                     <span>Subtotal</span>
                     <span className="font-medium">{formatPrice(subtotal)}</span>
                   </div>
-                  <div className="flex justify-between text-sm xs:text-base">
-                    <span>Tax</span>
-                    <span className="font-medium">{formatPrice(tax)}</span>
-                  </div>
-                  <div className="flex justify-between text-sm xs:text-base">
+                  <div className="flex justify-between text-base">
                     <span>Delivery</span>
                     <span className="font-medium">
                       {delivery === 0 ? (
@@ -273,30 +269,27 @@ export default function Cart() {
                     </span>
                   </div>
                   {subtotal < 50 && delivery > 0 && (
-                    <p className="text-xs xs:text-sm text-muted-foreground bg-amber-50 p-2 xs:p-3 rounded-lg">
+                    <p className="text-xs text-muted-foreground bg-amber-50 p-2 rounded-lg">
                       Add {formatPrice(50 - subtotal)} more for free delivery!
                     </p>
                   )}
                 </div>
-
-                <Separator />
-
-                <div className="flex justify-between font-semibold text-lg xs:text-xl">
+                <Separator className="my-4" />
+                <div className="flex justify-between font-semibold text-lg">
                   <span>Total</span>
                   <span>{formatPrice(orderTotal)}</span>
                 </div>
-
                 <Button
-                  className="w-full min-h-touch py-4 xs:py-5 text-base xs:text-lg font-bold rounded-xl mt-4 bg-primary hover:bg-bakery-gold hover:scale-[1.02] text-primary-foreground transition-all duration-300 shadow-lg hover:shadow-xl transform active:scale-[0.98]"
+                  className="w-full min-h-touch py-3 text-base font-semibold tracking-wide rounded-lg mt-4 bg-primary hover:bg-bakery-gold text-primary-foreground transition-all duration-300 shadow hover:shadow-lg font-sans"
                   size="lg"
-                  asChild
+                  asChild={true}
                 >
                   <Link to="/checkout" className="flex items-center justify-center gap-2">
                     <ShoppingBag className="h-5 w-5" />
                     Proceed to Checkout
                   </Link>
                 </Button>
-                <p className="text-xs xs:text-sm text-muted-foreground text-center leading-relaxed mt-2">
+                <p className="text-xs text-muted-foreground text-center leading-relaxed mt-2">
                   Secure checkout powered by industry-standard encryption
                 </p>
               </CardContent>
