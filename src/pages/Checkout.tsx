@@ -267,7 +267,7 @@ export default function Checkout() {
                       id="pickupDate"
                       name="pickupDate"
                       type="text"
-                      className="block w-full border-0 border-b border-gray-400 focus:border-black focus:border-b-1 focus:outline-none text-gray-900 pl-10 pr-3 py-2 bg-transparent placeholder:text-gray-400 shadow-none transition-colors duration-200"
+                      className="block w-full border-0 border-b border-gray-400 focus:border-black focus:border-b-1 focus:outline-none text-gray-900 pl-10 pr-3 py-2 bg-transparent placeholder:text-gray-900 shadow-none transition-colors duration-200 "
                       value={formData.pickupDate ? formData.pickupDate : ''}
                       onClick={() => setShowDatePicker((v) => !v)}
                       readOnly
