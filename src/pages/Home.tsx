@@ -7,10 +7,46 @@ import { mockProducts, categories } from "@/lib/data";
 import Gallery from '@/components/Gallery';
 import { CategorySection } from "@/components/CategorySection";
 import { CategoryCard } from "@/components/CategoryCard";
+import { useDispatch, useSelector } from "react-redux";
+import type { RootState } from "@/lib/store";
+import { useState } from "react";
 
 export default function Home() {
   // Get featured products (first 6 products for homepage)
   const featuredProducts = mockProducts.slice(0, 6);
+
+  // Customer reviews state (static for demo, can be replaced with API)
+  const [reviewText, setReviewText] = useState("");
+  const [reviews, setReviews] = useState([
+    {
+      user: "Alice",
+      rating: 5,
+      comment: "Absolutely delicious! Will buy again.",
+      date: "2024-06-20",
+    },
+    {
+      user: "Bob",
+      rating: 4,
+      comment: "Great taste, but a bit pricey.",
+      date: "2024-06-18",
+    },
+  ]);
+  const { isAuthenticated, user } = useSelector((state: RootState) => state.auth);
+
+  const handleReviewSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!reviewText.trim()) return;
+    setReviews([
+      {
+        user: user?.email || "Anonymous",
+        rating: 5,
+        comment: reviewText,
+        date: new Date().toISOString().slice(0, 10),
+      },
+      ...reviews,
+    ]);
+    setReviewText("");
+  };
 
   return (
     <div className="min-h-screen">
@@ -90,8 +126,83 @@ export default function Home() {
           </div>
         </section>
 
-        {/* Animated Gallery Section */}
-        <Gallery masonry />
+        {/* Customer Reviews Section */}
+        <section className="bg-bakery-cream border-t border-border">
+          <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
+            <div className="text-center mb-10">
+              <h2 className="text-2xl sm:text-3xl font-bold text-foreground mb-2">Customer Reviews</h2>
+              <div className="w-16 h-0.5 bg-primary mx-auto"></div>
+            </div>
+            {isAuthenticated && (
+              <div className="mb-10">
+                <form onSubmit={handleReviewSubmit} className="bg-card rounded-xl p-6 shadow-sm border border-border">
+                  <div className="space-y-4">
+                    <div>
+                      <label className="block text-sm font-semibold text-foreground mb-2">Write a Review</label>
+                      <textarea
+                        className="w-full border border-border rounded-lg p-4 text-sm min-h-[100px] focus:ring-2 focus:ring-primary focus:border-primary transition-all resize-none placeholder:text-muted-foreground"
+                        placeholder="Share your thoughts about this bakery..."
+                        value={reviewText}
+                        onChange={e => setReviewText(e.target.value)}
+                        required
+                      />
+                    </div>
+                    <div className="flex justify-end">
+                      <Button
+                        type="submit"
+                        className="bg-primary hover:bg-primary/90 text-primary-foreground font-medium px-6 py-2.5 rounded-lg text-sm transition-all duration-200"
+                      >
+                        Submit Review
+                      </Button>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            )}
+            <div className="space-y-4">
+              {reviews.length === 0 ? (
+                <div className="text-center py-12 bg-card rounded-xl border border-border">
+                  <div className="text-4xl mb-4">💬</div>
+                  <div className="text-lg font-medium text-muted-foreground mb-1">No reviews yet</div>
+                  <p className="text-sm text-muted-foreground">Be the first to review this bakery</p>
+                </div>
+              ) : (
+                reviews.map((review, idx) => (
+                  <div key={idx} className="bg-card rounded-xl p-6 shadow-sm border border-border hover:shadow-md transition-shadow duration-200">
+                    <div className="flex items-start gap-4">
+                      <div className="w-10 h-10 bg-secondary rounded-full flex items-center justify-center flex-shrink-0">
+                        <span className="text-secondary-foreground font-semibold text-sm">
+                          {review.user.charAt(0).toUpperCase()}
+                        </span>
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <div className="flex items-center justify-between mb-2">
+                          <div>
+                            <h4 className="font-semibold text-foreground text-sm">{review.user}</h4>
+                            <div className="flex items-center gap-1 mt-0.5">
+                              <div className="flex">
+                                {[...Array(5)].map((_, i) => (
+                                  <span key={i} className={`text-sm ${i < review.rating ? 'text-yellow-400' : 'text-gray-300'}`}>
+                                    ★
+                                  </span>
+                                ))}
+                              </div>
+                              <span className="text-xs text-muted-foreground ml-1">{review.rating}/5</span>
+                            </div>
+                          </div>
+                          <time className="text-xs text-muted-foreground flex-shrink-0">{review.date}</time>
+                        </div>
+                        <p className="text-sm text-foreground leading-relaxed">
+                          "{review.comment}"
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                ))
+              )}
+            </div>
+          </div>
+        </section>
 
       </main>
     </div>
