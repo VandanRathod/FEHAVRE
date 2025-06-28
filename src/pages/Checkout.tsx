@@ -106,8 +106,9 @@ export default function Checkout() {
     (sum, item) => sum + (item.product?.price || 0) * item.quantity,
     0,
   );
+  const tax = subtotal * 0.08;
   const delivery = subtotal > 50 ? 0 : 5.99;
-  const total = subtotal + delivery;
+  const total = subtotal + tax + delivery;
 
   const formatPrice = (price: number) => {
     return new Intl.NumberFormat("en-US", {
@@ -266,7 +267,7 @@ export default function Checkout() {
                       id="pickupDate"
                       name="pickupDate"
                       type="text"
-                      className="block w-full border-0 border-b border-gray-400 focus:border-black focus:border-b-1 focus:outline-none text-gray-900 pl-10 pr-3 py-2 bg-transparent placeholder:text-gray-400 shadow-none transition-colors duration-200"
+                      className="block w-full border-0 border-b border-gray-400 focus:border-black focus:border-b-1 focus:outline-none text-gray-900 pl-10 pr-3 py-2 bg-transparent placeholder:text-gray-900 shadow-none transition-colors duration-200 ms-1 "
                       value={formData.pickupDate ? formData.pickupDate : ''}
                       onClick={() => setShowDatePicker((v) => !v)}
                       readOnly
@@ -533,6 +534,8 @@ export default function Checkout() {
                   )}
                 </CardContent>
               </Card>
+
+              
             </div>
 
             {/* Order Summary */}
@@ -565,6 +568,7 @@ export default function Checkout() {
                       <span>Subtotal</span>
                       <span>{formatPrice(subtotal)}</span>
                     </div>
+                    
                     <div className="flex justify-between">
                       <span>Delivery</span>
                       <span>
