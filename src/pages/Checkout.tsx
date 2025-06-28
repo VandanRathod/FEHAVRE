@@ -15,6 +15,8 @@ import { clearCart } from "@/lib/cartSlice";
 import { mockProducts } from "@/lib/data";
 import { ArrowLeft, CreditCard, Truck, Clock, Store, Info } from "lucide-react";
 import * as React from "react";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 export default function Checkout() {
   const navigate = useNavigate();
@@ -26,6 +28,7 @@ export default function Checkout() {
   const [paymentMethod, setPaymentMethod] = useState("card");
   const [deliveryMethod, setDeliveryMethod] = useState("car");
   const [showStoreInfo, setShowStoreInfo] = useState<{open: boolean, store: any | null}>({open: false, store: null});
+  const [showDatePicker, setShowDatePicker] = useState(false);
 
   const [formData, setFormData] = useState({
     // Contact Info
@@ -42,6 +45,8 @@ export default function Checkout() {
 
     // Store Pickup
     storeLocation: "",
+    pickupDate: "",
+    pickupTime: "",
 
     // Payment Info
     cardNumber: "",
@@ -248,75 +253,136 @@ export default function Checkout() {
                     <span className={`font-semibold text-base ${deliveryMethod === 'pickup' ? 'text-primary' : 'text-gray-700'}`}>Store Pickup</span>
                   </div>
                 </div>
-                {deliveryMethod === 'pickup' && (
-                  <div className="mt-2">
-                    <Label className="block mb-2">Please choose a pickup location, date and time:</Label>
-                    <div className="space-y-3">
-                      {storeOptions.map((store) => (
-                        <div
-                          key={store.value}
-                          className={`border rounded-lg p-4 flex items-start gap-3 ${formData.storeLocation === store.value ? 'border-primary bg-primary/5' : 'border-border/50 bg-white'}`}
-                          onClick={(e) => {
-                            // Prevent click from More information button from selecting
-                            if ((e.target as HTMLElement).closest('button')) return;
-                            setFormData((prev) => ({ ...prev, storeLocation: store.value }));
+              </div>
+
+              {/* Date and Time Slot Selection (always visible after delivery method) */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                <div className="relative">
+                  <Label htmlFor="pickupDate">Date *</Label>
+                  <div className="relative mt-1">
+                    <span className="absolute left-0 top-1/2 -translate-y-1/2 pl-3 pointer-events-none">
+                      <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
+                    </span>
+                    <input
+                      id="pickupDate"
+                      name="pickupDate"
+                      type="text"
+                      className="block w-full border-0 border-b border-gray-400 focus:border-black focus:border-b-1 focus:outline-none text-gray-900 pl-10 pr-3 py-2 bg-transparent placeholder:text-gray-400 shadow-none transition-colors duration-200"
+                      value={formData.pickupDate ? formData.pickupDate : ''}
+                      onClick={() => setShowDatePicker((v) => !v)}
+                      readOnly
+                      placeholder="Select a date"
+                      required
+                      autoComplete="off"
+                    />
+                    {showDatePicker && (
+                      <div className="absolute z-50 mt-2 w-full" style={{background: 'none', boxShadow: 'none', border: 'none'}}>
+                        <DatePicker
+                          selected={formData.pickupDate ? new Date(formData.pickupDate) : null}
+                          onChange={(date) => {
+                            setFormData((prev) => ({ ...prev, pickupDate: date ? date.toISOString().slice(0, 10) : "" }));
+                            setShowDatePicker(false);
                           }}
-                          style={{ cursor: 'pointer' }}
-                          tabIndex={0}
-                          role="button"
-                        >
-                          <input
-                            type="radio"
-                            id={store.value}
-                            name="storeLocation"
-                            value={store.value}
-                            checked={formData.storeLocation === store.value}
-                            onChange={handleInputChange}
-                            className="mt-1 h-5 w-5 accent-primary"
-                            onClick={(e) => e.stopPropagation()} // Prevent bubbling to parent div
-                          />
-                          <div className="flex-1">
-                            <Label htmlFor={store.value} className="font-bold text-base text-bakery-dark">{store.name}</Label>
-                            <div className="text-sm text-gray-700 leading-snug mt-1">{store.address}<br/>{store.city}</div>
-                            <button
-                              type="button"
-                              className="text-primary underline text-xs mt-1 flex items-center gap-1"
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                setShowStoreInfo({open: true, store});
-                              }}
-                            >
-                              <Info className="h-4 w-4 inline-block" /> More information
-                            </button>
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                    {/* Store Info Modal */}
-                    {showStoreInfo.open && showStoreInfo.store && (
-                      <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
-                        <div className="bg-white rounded-lg shadow-lg max-w-md w-full p-6 relative mx-4">
-                          <button className="absolute top-2 right-2 text-gray-400 hover:text-primary text-2xl font-bold" onClick={() => setShowStoreInfo({open: false, store: null})}>&times;</button>
-                          <h2 className="text-2xl font-bold mb-2 leading-tight">{showStoreInfo.store.name}</h2>
-                          <div className="text-base text-gray-700 mb-4 whitespace-pre-line">{showStoreInfo.store.address}<br/>{showStoreInfo.store.city}</div>
-                          <div className="font-semibold text-lg mb-2">Pickup hours</div>
-                          <table className="w-full border text-sm mb-4">
-                            <tbody>
-                              {pickupHours.map((row) => (
-                                <tr key={row.day}>
-                                  <td className="border px-2 py-1 font-medium w-1/3">{row.day}</td>
-                                  <td className="border px-2 py-1">{row.time}</td>
-                                </tr>
-                              ))}
-                            </tbody>
-                          </table>
-                          <Button className="w-full mt-2" onClick={() => setShowStoreInfo({open: false, store: null})}>Close</Button>
-                        </div>
+                          inline
+                          minDate={new Date()}
+                        />
                       </div>
                     )}
                   </div>
-                )}
+                </div>
+                <div className="relative">
+                  <Label htmlFor="pickupTime">Time Slot *</Label>
+                  <div className="relative mt-1">
+                    <span className="absolute left-0 top-1/2 -translate-y-1/2 pl-3 pointer-events-none">
+                      <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                    </span>
+                    <select
+                      id="pickupTime"
+                      name="pickupTime"
+                      className="block w-full border-0 border-b border-gray-400 focus:border-black focus:border-b-1 focus:outline-none text-gray-900 pl-10 pr-3 py-2 bg-transparent placeholder:text-gray-400 shadow-none transition-colors duration-200"
+                      value={formData.pickupTime || ''}
+                      onChange={handleInputChange}
+                      
+                      required
+                    >
+                      <option value="" disabled hidden>Select a time slot</option>
+                      <option value="10:00 AM - 1:00 PM">10:00 AM - 1:00 PM</option>
+                      <option value="1:00 PM - 3:00 PM">1:00 PM - 3:00 PM</option>
+                      <option value="3:00 PM - 5:00 PM">3:00 PM - 5:00 PM</option>
+                      <option value="5:00 PM - 6:00 PM">5:00 PM - 6:00 PM</option>
+                    </select>
+                  </div>
+                </div>
               </div>
+
+              {/* Store select only for pickup */}
+              {deliveryMethod === 'pickup' && (
+                <div className="mt-2">
+                  <Label className="block mb-2">Please choose a pickup location:</Label>
+                  <div className="space-y-3">
+                    {storeOptions.map((store) => (
+                      <div
+                        key={store.value}
+                        className={`border rounded-lg p-4 flex items-start gap-3 ${formData.storeLocation === store.value ? 'border-primary bg-primary/5' : 'border-border/50 bg-white'}`}
+                        onClick={(e) => {
+                          if ((e.target as HTMLElement).closest('button')) return;
+                          setFormData((prev) => ({ ...prev, storeLocation: store.value }));
+                        }}
+                        style={{ cursor: 'pointer' }}
+                        tabIndex={0}
+                        role="button"
+                      >
+                        <input
+                          type="radio"
+                          id={store.value}
+                          name="storeLocation"
+                          value={store.value}
+                          checked={formData.storeLocation === store.value}
+                          onChange={handleInputChange}
+                          className="mt-1 h-5 w-5 accent-primary"
+                          onClick={(e) => e.stopPropagation()} // Prevent bubbling to parent div
+                        />
+                        <div className="flex-1">
+                          <Label htmlFor={store.value} className="font-bold text-base text-bakery-dark">{store.name}</Label>
+                          <div className="text-sm text-gray-700 leading-snug mt-1">{store.address}<br/>{store.city}</div>
+                          <button
+                            type="button"
+                            className="text-primary underline text-xs mt-1 flex items-center gap-1"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              setShowStoreInfo({open: true, store});
+                            }}
+                          >
+                            <Info className="h-4 w-4 inline-block" /> More information
+                          </button>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                  {/* Store Info Modal */}
+                  {showStoreInfo.open && showStoreInfo.store && (
+                    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
+                      <div className="bg-white rounded-lg shadow-lg max-w-md w-full p-6 relative mx-4">
+                        <button className="absolute top-2 right-2 text-gray-400 hover:text-primary text-2xl font-bold" onClick={() => setShowStoreInfo({open: false, store: null})}>&times;</button>
+                        <h2 className="text-2xl font-bold mb-2 leading-tight">{showStoreInfo.store.name}</h2>
+                        <div className="text-base text-gray-700 mb-4 whitespace-pre-line">{showStoreInfo.store.address}<br/>{showStoreInfo.store.city}</div>
+                        <div className="font-semibold text-lg mb-2">Pickup hours</div>
+                        <table className="w-full border text-sm mb-4">
+                          <tbody>
+                            {pickupHours.map((row) => (
+                              <tr key={row.day}>
+                                <td className="border px-2 py-1 font-medium w-1/3">{row.day}</td>
+                                <td className="border px-2 py-1">{row.time}</td>
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
+                        <Button className="w-full mt-2" onClick={() => setShowStoreInfo({open: false, store: null})}>Close</Button>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              )}
 
               {/* Delivery Address (conditional) */}
               {deliveryMethod === 'car' && (
