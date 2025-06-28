@@ -374,7 +374,7 @@ export default function ProductDetail() {
 
                   <Button
                     variant="outline"
-                    className="w-full font-medium rounded-lg sm:rounded-xl lg:rounded-2xl border-2 border-border text-foreground hover:bg-muted hover:border-primary transition-all duration-300"
+                    className="w-full font-medium rounded-lg sm:rounded-xl lg:rounded-2xl border-2 border-border text-foreground  "
                     size="lg"
                     disabled={!inStock}
                     onClick={() => {
