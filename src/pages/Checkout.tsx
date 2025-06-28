@@ -149,11 +149,13 @@ export default function Checkout() {
             {/* Checkout Form */}
             <div className="lg:col-span-2 space-y-6">
               {/* Enhanced Contact Information */}
-              <div className="bg-white rounded-2xl shadow-lg p-8">
-                <h3 className="text-xl font-bold text-gray-900 mb-6 flex items-center gap-2">
-                  Contact Information
-                </h3>
-                <div className="space-y-6">
+              <Card>
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2">
+                    Contact Information
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-6">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
                       <Label htmlFor="email" className="text-gray-900 font-semibold">Email *</Label>
@@ -178,8 +180,8 @@ export default function Checkout() {
                       />
                     </div>
                   </div>
-                </div>
-              </div>
+                </CardContent>
+              </Card>
 
               {/* Delivery Address */}
               <Card>
