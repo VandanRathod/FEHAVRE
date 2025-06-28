@@ -10,6 +10,7 @@ import { CategoryCard } from "@/components/CategoryCard";
 import { useDispatch, useSelector } from "react-redux";
 import type { RootState } from "@/lib/store";
 import { useState } from "react";
+import { FeatureGrid } from "@/components/FeatureGrid";
 
 export default function Home() {
   // Get featured products (first 6 products for homepage)
@@ -98,6 +99,9 @@ export default function Home() {
             </div>
           </div>
         </section>
+
+        {/* Feature Grid Section */}
+        <FeatureGrid />
 
         {/* Categories Section - Product Card Style */}
         <CategorySection categories={categories} />
