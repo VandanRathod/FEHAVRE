@@ -28,6 +28,23 @@ export default function Products() {
     return filtered;
   }, [searchQuery]);
 
+  // Preview images from the products folder
+  const previewImages = [
+    "IMG-20250628-WA0019.jpg",
+    "IMG-20250628-WA0021.jpg",
+    "IMG-20250628-WA0022.jpg",
+    "IMG-20250629-WA0033.jpg",
+    "IMG-20250629-WA0042.jpg",
+    "IMG-20250629-WA0043.jpg",
+    "IMG-20250629-WA0044.jpg",
+    "IMG-20250629-WA0045.jpg",
+    "IMG-20250629-WA0054.jpg",
+    "IMG-20250629-WA0055.jpg",
+    "IMG-20250629-WA0056.jpg",
+    "IMG-20250629-WA0057.jpg",
+    "WhatsApp Image 2025-06-29 at 23.28.03_0bd0c522.jpg",
+  ];
+
   return (
     <div className="min-h-screen">
       {/* Banner Image - visually appealing */}
@@ -67,7 +84,7 @@ export default function Products() {
         {/* Products Grid */}
         {filteredProducts.length > 0 ? (
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4 px-2">
-            {filteredProducts.map((product) => (
+            {filteredProducts.map((product, index) => (
               <div
                 key={product.id}
                 onClick={() => navigate(`/products/${product.id}`)}
@@ -76,7 +93,7 @@ export default function Products() {
                 <CategoryCard
                   label={product.name}
                   value={product.category}
-                  image={product.image}
+                  image={`/images/bakery/products/${previewImages[index % previewImages.length]}`}
                   className="animate-fade-in"
                 />
               </div>

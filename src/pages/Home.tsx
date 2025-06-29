@@ -49,6 +49,29 @@ export default function Home() {
     setReviewText("");
   };
 
+  // Preview images from the products folder
+  const previewImages = [
+    "IMG-20250628-WA0019.jpg",
+    "IMG-20250628-WA0021.jpg",
+    "IMG-20250628-WA0022.jpg",
+    "IMG-20250629-WA0033.jpg",
+    "IMG-20250629-WA0042.jpg",
+    "IMG-20250629-WA0043.jpg",
+    "IMG-20250629-WA0044.jpg",
+    "IMG-20250629-WA0045.jpg",
+    "IMG-20250629-WA0054.jpg",
+    "IMG-20250629-WA0055.jpg",
+    "IMG-20250629-WA0056.jpg",
+    "IMG-20250629-WA0057.jpg",
+    "WhatsApp Image 2025-06-29 at 23.28.03_0bd0c522.jpg",
+  ];
+
+  // Attach preview images to categories for Shop by Category
+  const categoriesWithImages = categories.map((cat, idx) => ({
+    ...cat,
+    image: `/images/bakery/products/${previewImages[idx % previewImages.length]}`,
+  }));
+
   return (
     <div className="min-h-screen">
       <main>
@@ -104,7 +127,7 @@ export default function Home() {
         <FeatureGrid />
 
         {/* Categories Section - Product Card Style */}
-        <CategorySection categories={categories} />
+        <CategorySection categories={categoriesWithImages} />
 
         {/* Featured Products Section - Same Style as Categories */}
         <section className="py-8 sm:py-12 md:py-16">
@@ -117,12 +140,12 @@ export default function Home() {
             </div>
 
             <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 sm:gap-4">
-              {featuredProducts.map((product, index) => (
+              {previewImages.map((img, index) => (
                 <CategoryCard
-                  key={product.id}
-                  label={product.name}
-                  value={product.category}
-                  image={product.image}
+                  key={img}
+                  label={`Product ${index + 1}`}
+                  value={`Category`}
+                  image={`/images/bakery/products/${img}`}
                   className="animate-fade-in"
                 />
               ))}

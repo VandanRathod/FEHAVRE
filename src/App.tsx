@@ -12,6 +12,7 @@ import { useState, useEffect } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import Layout from "@/components/layout/Layout";
 import ProductDetail from "@/pages/ProductDetail";
+import ScrollToTop from "./ScrollToTop";
 
 // Pages
 import Home from "./pages/Home";
@@ -102,6 +103,7 @@ const App = () => {
           <Toaster />
           <Sonner />
           <BrowserRouter>
+            <ScrollToTop />
             <AnimatedRoutesWithLoader />
           </BrowserRouter>
         </TooltipProvider>

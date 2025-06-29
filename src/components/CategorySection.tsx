@@ -4,6 +4,7 @@ import { OptimizedImage } from "@/components/ui/optimized-image";
 interface Category {
   value: string;
   label: string;
+  image?: string;
 }
 
 interface CategorySectionProps {
@@ -31,8 +32,8 @@ export function CategorySection({ categories }: CategorySectionProps) {
               <div className="flex flex-col h-[300px] items-center">
                 <div className="relative aspect-square w-full h-[450px] overflow-hidden">
                   <OptimizedImage
-                    src={
-                      category.value === "bread"
+                    src={category.image ||
+                      (category.value === "bread"
                         ? "https://images.unsplash.com/photo-1509440159596-0249088772ff?w=300&h=300&fit=crop&crop=center"
                         : category.value === "cakes"
                         ? "https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=300&h=300&fit=crop&crop=center"
@@ -42,7 +43,7 @@ export function CategorySection({ categories }: CategorySectionProps) {
                         ? "https://images.unsplash.com/photo-1499636136210-6f4ee915583e?w=300&h=300&fit=crop&crop=center"
                         : category.value === "muffins"
                         ? "https://images.unsplash.com/photo-1607958996333-41aef7caefaa?w=300&h=300&fit=crop&crop=center"
-                        : "https://images.unsplash.com/photo-1555507036-ab794f0eedc4?w=300&h=300&fit=crop&crop=center"
+                        : "https://images.unsplash.com/photo-1555507036-ab794f0eedc4?w=300&h=300&fit=crop&crop=center")
                     }
                     alt={category.label}
                     className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-200"
