@@ -33,16 +33,17 @@ export default function Products() {
       {/* Banner Image - visually appealing */}
       <div className="w-full h-32 md:h-44 lg:h-56 bg-gray-100 flex items-center justify-center mb-4 overflow-hidden rounded-b-2xl shadow-lg relative">
         <img
-          src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=1200&q=80"
+          src="/images/bakery/banners/productpagebanner.jpg"
           alt="Bakery Banner"
           className="object-cover object-center w-full h-full"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
-        <div className="absolute bottom-4 left-1/2 -translate-x-1/2 text-center">
-          <h1 className="text-2xl md:text-3xl lg:text-4xl font-black text-white drop-shadow-lg tracking-tight mb-1">
+        {/* Simpler overlay for better text contrast */}
+        <div className="absolute inset-0 bg-black/40" />
+        <div className="absolute bottom-5 left-1/2 -translate-x-1/2 text-center w-full px-2">
+          <h1 className="text-2xl md:text-3xl lg:text-4xl font-bold text-white drop-shadow-md tracking-tight mb-1">
             OUR PRODUCTS
           </h1>
-          <p className="text-xs md:text-sm lg:text-base text-white/90 font-medium max-w-xl mx-auto drop-shadow">
+          <p className="text-xs md:text-sm lg:text-base text-white/90 font-normal max-w-xl mx-auto drop-shadow-sm">
             Discover our full range of freshly baked goods, made daily with the
             finest ingredients and traditional techniques.
           </p>
