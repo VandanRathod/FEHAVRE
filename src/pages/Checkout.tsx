@@ -251,7 +251,7 @@ export default function Checkout() {
                     tabIndex={0}
                   >
                     <Store className={`h-8 w-8 mb-2 ${deliveryMethod === 'pickup' ? 'text-primary' : 'text-gray-400'}`} strokeWidth={0.9} />
-                    <span className={`font-semibold text-base ${deliveryMethod === 'pickup' ? 'text-primary' : 'text-gray-700'}`}>Store Pickup</span>
+                    <span className={`font-semibold text-base ${deliveryMethod === 'pickup' ? 'text-primary' : 'text-gray-700'}`}>Pickup</span>
                   </div>
                 </div>
               </div>
