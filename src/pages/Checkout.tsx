@@ -579,6 +579,30 @@ export default function Checkout() {
 
                   <Separator />
 
+                  {/* Discount/Coupon Code */}
+                  <div className="space-y-2">
+                    <label htmlFor="coupon" className="block text-sm font-medium text-gray-700">Discount Code or Gift Coupon</label>
+                    <div className="flex gap-2">
+                      <Input
+                        id="coupon"
+                        name="coupon"
+                        type="text"
+                        placeholder="Enter code"
+                        className="flex-1"
+                        // value={couponCode}
+                        // onChange={handleCouponChange}
+                      />
+                      <Button
+                        type="button"
+                        variant="outline"
+                        size="sm"
+                        // onClick={applyCoupon}
+                      >
+                        Apply
+                      </Button>
+                    </div>
+                  </div>
+
                   <div className="flex justify-between font-semibold text-lg">
                     <span>Total</span>
                     <span>{formatPrice(total)}</span>
