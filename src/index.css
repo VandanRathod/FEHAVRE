@@ -9,37 +9,27 @@
    * Variables are expressed as HSL values for tailwind.config.ts compatibility.
   */
   :root {
-    /* Warm bakery-themed colors */
-    --background: 30 15% 98%;        /* Warm off-white */
+    /* Logo background color theme */
+    --background: 18 38% 96%;        /* Soft beige-pink from logo (#f6edea) */
     --foreground: 25 25% 15%;        /* Dark brown text */
-
-    --card: 30 20% 97%;              /* Slightly warm white cards */
+    --card: 18 38% 96%;              /* Match card to background for unity */
     --card-foreground: 25 25% 15%;   /* Dark brown text on cards */
-
-    --popover: 30 20% 97%;           /* Warm white popover */
+    --popover: 18 38% 96%;           /* Match popover to background */
     --popover-foreground: 25 25% 15%; /* Dark brown popover text */
-
     --primary: 25 60% 35%;           /* Rich brown (#8B4513 equivalent) */
-    --primary-foreground: 30 15% 98%; /* Light cream text on brown */
-
+    --primary-foreground: 18 38% 96%; /* Light cream text on brown */
     --secondary: 30 25% 90%;         /* Light warm beige */
     --secondary-foreground: 25 60% 35%; /* Brown text on beige */
-
     --muted: 30 20% 95%;             /* Very light warm gray */
     --muted-foreground: 25 15% 45%;  /* Medium brown muted text */
-
     --accent: 35 45% 55%;            /* Warm golden brown (#CD853F equivalent) */
-    --accent-foreground: 30 15% 98%; /* Light text on golden brown */
-
+    --accent-foreground: 18 38% 96%; /* Light text on golden brown */
     --destructive: 0 84.2% 60.2%;    /* Keep red for errors */
     --destructive-foreground: 0 0% 100%;
-
     --border: 30 20% 85%;            /* Light brown border */
     --input: 30 20% 90%;             /* Light brown input background */
     --ring: 25 60% 35%;              /* Brown focus ring */
-
     --radius: 0.25rem;
-
     /* Comprehensive bakery theme colors */
     --bakery-warm: 35 40% 80%;       /* Warm light brown/beige */
     --bakery-cream: 30 30% 92%;      /* Rich cream color */

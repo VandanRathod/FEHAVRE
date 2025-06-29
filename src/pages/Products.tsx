@@ -51,13 +51,15 @@ export default function Products() {
       <main className="max-w-7xl mx-auto px-2 sm:px-4 py-4 xs:py-6 sm:py-8">
         {/* Search Only */}
         <div className="mb-6 flex justify-center">
-          <div className="w-full max-w-md">
+          <div className="w-full max-w-md relative">
+            <svg className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400 pointer-events-none" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
             <input
               type="text"
               placeholder="Search products..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full border border-gray-300 bg-white rounded-full focus:ring-2 focus:ring-black focus:border-black text-base px-5 py-3 shadow-sm transition placeholder-gray-500 outline-none"
+              className="w-full border-0 border-b border-[#d6d3ce] focus:border-black focus:border-b-2 focus:outline-none text-gray-900 bg-background placeholder:text-gray-400 shadow-none transition-colors duration-200 rounded-none pl-11 pr-0 py-3 font-medium"
+              autoComplete="off"
             />
           </div>
         </div>

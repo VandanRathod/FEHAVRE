@@ -7,16 +7,16 @@ export default function About() {
   const { itemCount } = useCart();
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen bg-background">
       <main>
         {/* Nike-style Hero Section */}
-        <section className="nike-section bg-white">
+        <section className="nike-section bg-background">
           <div className="nike-container">
             <div className="max-w-4xl mx-auto text-center space-y-8">
-              <h1 className="nike-heading-xl text-black">
+              <h1 className="nike-heading-xl text-foreground">
                 OUR STORY
               </h1>
-              <p className="nike-body-lg text-gray-600 max-w-2xl mx-auto">
+              <p className="nike-body-lg text-muted-foreground max-w-2xl mx-auto">
                 Crafting exceptional baked goods with passion, tradition, and innovation since 1985.
               </p>
             </div>
@@ -24,15 +24,15 @@ export default function About() {
         </section>
 
         {/* Story Section */}
-        <section className="nike-section bg-white">
+        <section className="nike-section bg-background">
           <div className="nike-container">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-12 lg:gap-16 items-center">
               <div className="space-y-6 sm:space-y-8 order-2 lg:order-1">
                 <div className="space-y-4 sm:space-y-6">
-                  <h2 className="nike-heading-lg text-black">
+                  <h2 className="nike-heading-lg text-foreground">
                     TRADITION MEETS INNOVATION
                   </h2>
-                  <div className="space-y-4 text-gray-600">
+                  <div className="space-y-4 text-muted-foreground">
                     <p className="nike-body">
                       Founded in 1985, HAVRE began as a small neighborhood bakery with a simple mission: 
                       to create exceptional baked goods using traditional techniques and the finest ingredients.
@@ -65,14 +65,14 @@ export default function About() {
         </section>
 
         {/* Values Section */}
-        <section className="py-16 sm:py-20 bg-gray-50">
+        <section className="py-16 sm:py-20 bg-background">
           <div className="container mx-auto px-4">
             <div className="max-w-6xl mx-auto">
               <div className="text-center mb-12 sm:mb-16">
-                <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-black mb-4">
+                <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-foreground mb-4">
                   OUR VALUES
                 </h2>
-                <p className="text-gray-600 text-lg max-w-2xl mx-auto">
+                <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
                   The principles that guide everything we do
                 </p>
               </div>
@@ -82,10 +82,10 @@ export default function About() {
                   <div className="w-16 h-16 bg-amber-100 rounded-full flex items-center justify-center mx-auto mb-6">
                     <span className="text-2xl">🏆</span>
                   </div>
-                  <h3 className="text-xl font-bold text-black mb-4">
+                  <h3 className="text-xl font-bold text-foreground mb-4">
                     QUALITY
                   </h3>
-                  <p className="text-gray-600 leading-relaxed">
+                  <p className="text-muted-foreground leading-relaxed">
                     We source only the finest ingredients and maintain the highest standards
                     in every step of our baking process.
                   </p>
@@ -95,10 +95,10 @@ export default function About() {
                   <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
                     <span className="text-2xl">🌱</span>
                   </div>
-                  <h3 className="text-xl font-bold text-black mb-4">
+                  <h3 className="text-xl font-bold text-foreground mb-4">
                     FRESHNESS
                   </h3>
-                  <p className="text-gray-600 leading-relaxed">
+                  <p className="text-muted-foreground leading-relaxed">
                     Everything is baked fresh daily using traditional methods that have been
                     perfected over decades of experience.
                   </p>
@@ -108,10 +108,10 @@ export default function About() {
                   <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-6">
                     <span className="text-2xl">🤝</span>
                   </div>
-                  <h3 className="text-xl font-bold text-black mb-4">
+                  <h3 className="text-xl font-bold text-foreground mb-4">
                     COMMUNITY
                   </h3>
-                  <p className="text-gray-600 leading-relaxed">
+                  <p className="text-muted-foreground leading-relaxed">
                     We're proud to be part of the local community, supporting local farmers
                     and bringing people together through great food.
                   </p>
@@ -120,8 +120,6 @@ export default function About() {
             </div>
           </div>
         </section>
-
-        
 
         {/* CTA Section */}
         <section className="nike-section bg-black text-white">
