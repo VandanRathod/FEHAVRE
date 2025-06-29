@@ -87,7 +87,7 @@ export default function Products() {
             {filteredProducts.map((product, index) => (
               <div
                 key={product.id}
-                onClick={() => navigate(`/products/${product.id}`)}
+                onClick={() => navigate(`/products/${product.id}`, { state: { image: `/images/bakery/products/${previewImages[index % previewImages.length]}` } })}
                 style={{ cursor: "pointer" }}
               >
                 <CategoryCard

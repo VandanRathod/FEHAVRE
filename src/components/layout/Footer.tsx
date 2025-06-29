@@ -11,13 +11,13 @@ import {
 
 export function Footer() {
   return (
-    <footer className="backdrop-blur-lg bg-white/40 border-t border-gray-200 transition-all duration-300 shadow-xl pt-8 pb-16 relative">
+    <footer className="backdrop-blur-lg bg-white/40 border-t border-gray-200 transition-all duration-300 shadow-xl pt-4 pb-4 relative">
       {/* Bakery purple accent line */}
       <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-primary via-accent to-primary rounded-t-xl shadow-md" style={{ zIndex: 2 }} />
-      <div className="container mx-auto px-4 py-12">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-12">
+      <div className="container mx-auto px-4 py-4">
+        <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           {/* Brand Section */}
-          <div className="space-y-6">
+          <div className="space-y-3">
             <div>
               <span className="text-lg font-medium text-black tracking-wide">
                 HAVRE
@@ -114,7 +114,7 @@ export function Footer() {
           </div>
 
           {/* Company Info */}
-          <div className="space-y-6">
+          <div className="space-y-3">
             <h3 className="text-sm font-semibold text-black uppercase tracking-wide mb-4">Company</h3>
             <div className="space-y-2">
               <div className="text-gray-600 text-sm">
@@ -136,7 +136,7 @@ export function Footer() {
         </div>
 
         {/* Bottom Bar */}
-        <div className="flex flex-col sm:flex-row justify-between items-center space-y-4 sm:space-y-0 mt-12 pt-8 border-t border-gray-100">
+        <div className="flex flex-col sm:flex-row justify-between items-center space-y-2 sm:space-y-0 mt-2 pt-2 border-t border-gray-100">
           <div className="flex flex-wrap gap-4 sm:gap-6 text-sm text-gray-600">
             <Link
               to="/privacy"

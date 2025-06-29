@@ -17,19 +17,9 @@ const features = [
 		desc: "to meet your special requests & preferences.",
 	},
 	{
-		icon: Truck,
-		title: "Free Delivery",
-		desc: "Available within KL & Selangor*.",
-	},
-	{
 		icon: Cake,
 		title: "Fresh to Order",
 		desc: "Every cake is made after you order.",
-	},
-	{
-		icon: Trophy,
-		title: "Award-Winning Chef",
-		desc: "Led by a renowned pastry chef for world-class taste.",
 	},
 ];
 

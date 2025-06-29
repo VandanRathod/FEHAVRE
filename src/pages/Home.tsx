@@ -186,16 +186,16 @@ export default function Home() {
                 </form>
               </div>
             )}
-            <div className="space-y-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-4 justify-items-center">
               {reviews.length === 0 ? (
-                <div className="text-center py-12 bg-card rounded-xl border border-border">
+                <div className="text-center py-12 bg-card rounded-xl border border-border col-span-full max-w-lg w-full mx-auto">
                   <div className="text-4xl mb-4">💬</div>
                   <div className="text-lg font-medium text-muted-foreground mb-1">No reviews yet</div>
                   <p className="text-sm text-muted-foreground">Be the first to review this bakery</p>
                 </div>
               ) : (
                 reviews.map((review, idx) => (
-                  <div key={idx} className="bg-card rounded-xl p-6 shadow-sm border border-border hover:shadow-md transition-shadow duration-200">
+                  <div key={idx} className="bg-card rounded-xl p-6 shadow-sm border border-border hover:shadow-md transition-shadow duration-200 max-w-lg w-full mx-auto">
                     <div className="flex items-start gap-4">
                       <div className="w-10 h-10 bg-secondary rounded-full flex items-center justify-center flex-shrink-0">
                         <span className="text-secondary-foreground font-semibold text-sm">

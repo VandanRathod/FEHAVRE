@@ -1,4 +1,4 @@
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, useLocation } from "react-router-dom";
 import { mockProducts } from "@/lib/data";
 import { Button } from "@/components/ui/button";
 import { useDispatch, useSelector } from "react-redux";
@@ -16,6 +16,11 @@ import { useState, useEffect, useRef } from "react";
 import { useToast } from "@/hooks/use-toast";
 import type { Swiper as SwiperType } from 'swiper';
 import { cn } from "@/lib/utils";
+
+import img1 from "../../public/images/bakery/products/IMG-20250629-WA0057.jpg";
+import img2 from "../../public/images/bakery/products/IMG-20250629-WA0056.jpg";
+import img3 from "../../public/images/bakery/products/IMG-20250629-WA0055.jpg";
+import img4 from "../../public/images/bakery/products/IMG-20250629-WA0054.jpg";
 
 // Static reviews for demo
 const staticReviews = [
@@ -47,6 +52,7 @@ const CakeSVG = () => (
 
 export default function ProductDetail() {
   const { id } = useParams<{ id: string }>();
+  const location = useLocation();
   const product = mockProducts.find((p) => p.id === id);
   const dispatch = useDispatch();
   const { isAuthenticated, user } = useSelector((state: RootState) => state.auth);
@@ -61,14 +67,19 @@ export default function ProductDetail() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (product) setSelectedImage(product.image);
-  }, [product]);
+    // Use image from navigation state if available, else fallback to product.image
+    if (location.state && location.state.image) {
+      setSelectedImage(location.state.image);
+    } else if (product) {
+      setSelectedImage(product.image);
+    }
+  }, [product, location.state]);
 
   // For gallery, use main image + fallback + placeholder
   const galleryImages = [
-    product?.image,
+    selectedImage,
     product?.fallbackImage,
-    product?.image + "&blur"
+    selectedImage ? selectedImage + "&blur" : undefined
   ].filter(Boolean);
 
   // Similar products data
@@ -76,7 +87,7 @@ export default function ProductDetail() {
     {
       id: "sim-1",
       name: "Chocolate Croissant",
-      image: "https://images.unsplash.com/photo-1555507036-ab794f0eedc4?w=300&h=300&fit=crop&crop=center",
+      image: img1,
       price: 3.5,
       description: "Flaky croissant filled with rich chocolate.",
       category: "pastries",
@@ -89,7 +100,7 @@ export default function ProductDetail() {
     {
       id: "sim-2",
       name: "Almond Danish",
-      image: "https://images.unsplash.com/photo-1586985289688-ca3cf47d3e6e?w=300&h=300&fit=crop&crop=center",
+      image: img2,
       price: 4.0,
       description: "Buttery danish topped with toasted almonds.",
       category: "pastries",
@@ -102,7 +113,7 @@ export default function ProductDetail() {
     {
       id: "sim-3",
       name: "Raspberry Tart",
-      image: "https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=300&h=300&fit=crop&crop=center",
+      image: img3,
       price: 4.5,
       description: "Sweet tart with fresh raspberries and cream.",
       category: "desserts",
@@ -115,7 +126,7 @@ export default function ProductDetail() {
     {
       id: "sim-4",
       name: "Blueberry Muffin",
-      image: "https://images.unsplash.com/photo-1607958996333-41aef7caefaa?w=300&h=300&fit=crop&crop=center",
+      image: img4,
       price: 2.5,
       description: "Fresh blueberry muffin with a golden top.",
       category: "muffins",
