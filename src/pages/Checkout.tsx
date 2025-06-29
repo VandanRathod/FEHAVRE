@@ -182,12 +182,13 @@ export default function Checkout() {
             </Link>
           </Button>
           <div className="text-center">
-            <div className="inline-flex items-center px-4 py-2 bg-bakery-light text-bakery-dark rounded-full text-sm font-semibold uppercase tracking-wide mb-6 shadow-sm">
-              Secure Checkout
-            </div>
-            <h1 className="text-4xl md:text-5xl font-black text-gray-900 mb-4">
-              CHECKOUT
-            </h1>
+           
+            <img
+              src="/images/bakery/logo/havre-logo.png"
+              alt="Bakery Logo"
+              className="mx-auto mb-4 h-20 w-auto object-contain"
+            />
+            <div className="text-3xl font-serif font-extrabold tracking-widest text-bakery-dark drop-shadow-sm mb-2" style={{letterSpacing: '0.18em'}}>Havre</div>
           </div>
         </div>
 
